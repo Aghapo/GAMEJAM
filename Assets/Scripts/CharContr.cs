@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharContr : MonoBehaviour
-{
+public class CharContr : MonoBehaviour {
     Rigidbody2D rb;
     [SerializeField] private float moveSpeed;
     Vector2 movement;
@@ -16,39 +15,33 @@ public class CharContr : MonoBehaviour
     private float fireRateLive;
     public float fireRate;
     private bool isAttacked;
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody2D>();
         anmtr = GetComponent<Animator>();
-        audioS=GetComponent<AudioSource>();
+        audioS = GetComponent<AudioSource>();
 
     }
 
-    private void Update()
-    {
+    private void Update() {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
 
-        if (Input.GetButtonDown("Fire1")&&!isAttacked)
-        {
+        if (Input.GetButtonDown("Fire1") && !isAttacked) {
             anmtr.SetTrigger("attack");
             audioS.PlayOneShot(sword);
             fireRateLive = 0;
         }
 
-        if (fireRateLive < fireRate) 
-        { 
-        fireRateLive=fireRateLive + .3f * Time.deltaTime;
+        if (fireRateLive < fireRate) {
+            fireRateLive = fireRateLive + .3f * Time.deltaTime;
             isAttacked = true;
         }
-        else
-        {
+        else {
             isAttacked = false;
         }
 
-        if (enemy.isHiting == true)
-        {
+        if (enemy != null && enemy.isHiting == true) {
             getDamage();
 
         }
@@ -57,51 +50,44 @@ public class CharContr : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
 
-        
+
 
 
         rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
-        if (movement.y != 0 || movement.x != 0)
-        {
+        if (movement.y != 0 || movement.x != 0) {
             anmtr.SetBool("isRunning", true);
 
         }
-        else
-        {
+        else {
             anmtr.SetBool("isRunning", false);
         }
 
-        if (movement.x < 0 && facingRight)
-        {
+        if (movement.x < 0 && facingRight) {
             flip();
             facingRight = !facingRight;
         }
-        else if (movement.x > 0 && !facingRight)
-        {
+        else if (movement.x > 0 && !facingRight) {
             flip();
             facingRight = !facingRight;
         }
-       
-        
 
 
 
-        void flip()
-        {
+
+
+        void flip() {
             transform.Rotate(0, 180f, 0);
         }
 
-        
 
 
 
- }
-    void getDamage()
-    {
+
+    }
+    void getDamage() {
         anmtr.SetTrigger("getDamage");
     }
 

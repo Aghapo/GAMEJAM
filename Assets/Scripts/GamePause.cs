@@ -5,6 +5,10 @@ public class GamePause : MonoBehaviour
     public GameObject pauseMenuUI; // Menü UI nesnesi burada tanýmlanacak
     private bool isPaused = false;
 
+    private void Start() {
+        pauseMenuUI.SetActive(false); 
+        isPaused = false ;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
